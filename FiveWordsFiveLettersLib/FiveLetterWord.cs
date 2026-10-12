@@ -9,16 +9,17 @@ namespace FiveWordsFiveLettersLib
 			Hash = 0;
 			foreach (char c in word.ToLower())
 			{
-				Hash |= 1 << ((int)c - (int)'a'); // Convert c to a bit in a 32-bit int
-			}
+				Hash |= 1 << ((int)c - (int)'a'); // Convert c to a bit in a 32-bit int (0000_00zy_xwvu_tsrq_ponm_lkji_hgfe_dcba)
+            }
 		}
 
 		public override int GetHashCode() {
 			return Hash;
 		}
 
-		public override bool Equals(object obj) {
-			return obj is FiveLetterWord && Equals((FiveLetterWord) obj);
+		public override bool Equals(object? obj) {
+			if (obj == null || obj is not FiveLetterWord) return false;
+			return Equals((FiveLetterWord) obj);
 		}
 
 		/**
@@ -34,7 +35,8 @@ namespace FiveWordsFiveLettersLib
 		* 0000_0010_0000_0100_0000_0000_0101_0001 (gazes)
 		* 0000_0000_0000_0000_0000_0000_0100_0000 BIT AND (g)
 		*/
-		public bool Equals(FiveLetterWord other) {
+		public bool Equals(FiveLetterWord? other) {
+			if (other is null) return false;
 			return (other.Hash & this.Hash) != 0;
 		}
 

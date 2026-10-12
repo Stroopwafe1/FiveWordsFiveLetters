@@ -13,18 +13,12 @@ try
 {
     string[] lines = await File.ReadAllLinesAsync(filePath);
 	var solver = FiveWordsFiveLettersLib.Solver.Create(lines);
-	Console.WriteLine(lines.Length);
-
-	var toTest = new FiveWordsFiveLettersLib.FiveLetterWord("bring");
-
-	var elims = solver.GetEliminationsForWord(toTest);
-
-    foreach (var elim in elims)
-    {
-        Console.WriteLine($"Eliminated {elim.Word} {elim.Hash:B}, AND = {(elim.Hash & toTest.Hash):B}");
-    }
 
 	solver.Solve();
+    foreach (var solution in solver.Solutions)
+    {
+        Console.WriteLine($"Found solution {string.Join(',', solution.Words)}");
+    }
 }
 catch
 {

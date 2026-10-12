@@ -3,11 +3,13 @@
     public class Solver
     {
 		private List<FiveLetterWord> _words;
+		public HashSet<Solution> Solutions { get; set; }
 		
 
         private Solver(List<FiveLetterWord> words)
         {
 			this._words = words;
+			Solutions = new HashSet<Solution>();
         }
 
         public static Solver Create(string[] words)
@@ -37,7 +39,8 @@
 
 		public void Solve(List<FiveLetterWord> currentSet, int currentHash) {
 			if (currentSet.Count == 5) {
-				Console.WriteLine($"Found solution: {string.Join(',', currentSet)}");
+				// Copy our set to a new solution that deduplicates the same words in different order
+				Solutions.Add(new Solution(currentSet.ToList()));
 				return;
 			}
 
