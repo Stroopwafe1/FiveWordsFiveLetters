@@ -12,9 +12,9 @@ if (filePath == null)
 try
 {
     string[] lines = await File.ReadAllLinesAsync(filePath);
-	var solver = FiveWordsFiveLettersLib.Solver.Create(lines);
+    var solver = FiveWordsFiveLettersLib.Solver.Create(lines);
 
-	solver.Solve();
+    solver.Solve();
     foreach (var solution in solver.Solutions)
     {
         Console.WriteLine($"Found solution {string.Join(',', solution.Words)}");

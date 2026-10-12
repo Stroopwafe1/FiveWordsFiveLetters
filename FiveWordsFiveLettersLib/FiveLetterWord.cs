@@ -1,28 +1,32 @@
 namespace FiveWordsFiveLettersLib
 {
-	public class FiveLetterWord : IEquatable<FiveLetterWord> {
-		public string Word { get; set; }
-		public int Hash { get; set; }
+    public class FiveLetterWord : IEquatable<FiveLetterWord>
+    {
+        public string Word { get; set; }
+        public int Hash { get; set; }
 
-		public FiveLetterWord(string word) {
-			Word = word;
-			Hash = 0;
-			foreach (char c in word.ToLower())
-			{
-				Hash |= 1 << ((int)c - (int)'a'); // Convert c to a bit in a 32-bit int (0000_00zy_xwvu_tsrq_ponm_lkji_hgfe_dcba)
+        public FiveLetterWord(string word)
+        {
+            Word = word;
+            Hash = 0;
+            foreach (char c in word.ToLower())
+            {
+                Hash |= 1 << ((int)c - (int)'a'); // Convert c to a bit in a 32-bit int (0000_00zy_xwvu_tsrq_ponm_lkji_hgfe_dcba)
             }
-		}
+        }
 
-		public override int GetHashCode() {
-			return Hash;
-		}
+        public override int GetHashCode()
+        {
+            return Hash;
+        }
 
-		public override bool Equals(object? obj) {
-			if (obj == null || obj is not FiveLetterWord) return false;
-			return Equals((FiveLetterWord) obj);
-		}
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || obj is not FiveLetterWord) return false;
+            return Equals((FiveLetterWord)obj);
+        }
 
-		/**
+        /**
 		* Compares the hashes of this word and the provided word
 		* 
 		* Because the hash is a uint32 where every bit is a letter of the alphabet
@@ -35,29 +39,35 @@ namespace FiveWordsFiveLettersLib
 		* 0000_0010_0000_0100_0000_0000_0101_0001 (gazes)
 		* 0000_0000_0000_0000_0000_0000_0100_0000 BIT AND (g)
 		*/
-		public bool Equals(FiveLetterWord? other) {
-			if (other is null) return false;
-			return (other.Hash & this.Hash) != 0;
-		}
+        public bool Equals(FiveLetterWord? other)
+        {
+            if (other is null) return false;
+            return (other.Hash & this.Hash) != 0;
+        }
 
-		public static bool operator !=(FiveLetterWord word1, FiveLetterWord word2) {
-			if (word1 is null) {
-				return word2 is not null;
-			}
+        public static bool operator !=(FiveLetterWord word1, FiveLetterWord word2)
+        {
+            if (word1 is null)
+            {
+                return word2 is not null;
+            }
 
-			return !word1.Equals(word2);
-		}
+            return !word1.Equals(word2);
+        }
 
-		public static bool operator ==(FiveLetterWord word1, FiveLetterWord word2) {
-			if (word1 is null) {
-				return word2 is null;
-			}
+        public static bool operator ==(FiveLetterWord word1, FiveLetterWord word2)
+        {
+            if (word1 is null)
+            {
+                return word2 is null;
+            }
 
-			return word1.Equals(word2);
-		}
+            return word1.Equals(word2);
+        }
 
-		public override string ToString() {
-			return Word;
-		}
-	}
+        public override string ToString()
+        {
+            return Word;
+        }
+    }
 }
