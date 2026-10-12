@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FiveWordsFiveLetters/FiveWordsFiveLetters.csproj" />
+  <Project Path="FiveWordsFiveLettersLib/FiveWordsFiveLettersLib.csproj" />
+</Solution>
