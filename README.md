@@ -42,4 +42,5 @@ $ dotnet ./FiveWordsFiveLetters/bin/Release/net10.0/FiveWordsFiveLetters.dll ./F
 
 ## Results
 
-Running the solver on the complete data set takes around 4 minutes (250 seconds) on my machine. This is without any multithreading.
+- Single Threaded: Running the solver on the complete data set takes around 4 minutes (250 seconds) on my machine.
+- Multi Threaded: Running the solver on the complete data set takes around 40 seconds on my machine.
