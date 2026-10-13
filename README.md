@@ -20,7 +20,7 @@ It's just an algorithm I'm most familiar with for recursive problem solving. I a
 
 1. .NET Core 10 SDK
 
-## Steps to run
+## Steps to run (Preview file)
 
 ```sh
 $ dotnet build FiveWordsFiveLetters.slnx 
@@ -32,3 +32,14 @@ If you're using NixOS or the Nix package manager, enter the shell before running
 ```sh
 $ nix-shell
 ```
+
+## Steps to run (All data)
+
+```sh
+$ dotnet build -c Release FiveWordsFiveLetters.slnx
+$ dotnet ./FiveWordsFiveLetters/bin/Release/net10.0/FiveWordsFiveLetters.dll ./FiveWordsFiveLetters/words_alpha.txt
+```
+
+## Results
+
+Running the solver on the complete data set takes around 4 minutes (250 seconds) on my machine. This is without any multithreading.

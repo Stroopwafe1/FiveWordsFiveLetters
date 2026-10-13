@@ -2,7 +2,7 @@
 string? filePath = args.ElementAtOrDefault(0);
 if (filePath == null)
 {
-    filePath = "new_beta.txt";
+    filePath = "words_alpha.txt";
     if (!File.Exists(filePath))
     {
         throw new ArgumentException($"Incorrect usage, please provide a txt file in the CLI. \ndotnet ./FiveWordsFiveLetters/bin/Debug/net10.0/FiveWordsFiveLetters.dll <filePathHere> [wordLength] [wordCount]");
