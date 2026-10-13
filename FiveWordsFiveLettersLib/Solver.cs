@@ -1,18 +1,19 @@
-﻿namespace FiveWordsFiveLettersLib
+﻿using System.Collections.Concurrent;
+
+namespace FiveWordsFiveLettersLib
 {
     public class Solver
     {
         private List<FiveLetterWord> _words;
 		private int _wordCount;
-        public HashSet<Solution> Solutions { get; set; }
-		private HashSet<string> _solved;
+        public ConcurrentDictionary<Solution, byte> Solutions { get; set; }
+		private ConcurrentDictionary<string, byte> _solved = new ConcurrentDictionary<string, byte>();
 
         private Solver(List<FiveLetterWord> words, int wordCount = 5)
         {
             this._words = words;
 			this._wordCount = wordCount;
-            Solutions = new HashSet<Solution>();
-			_solved = new HashSet<string>();
+            Solutions = new ConcurrentDictionary<Solution, byte>();
         }
 
         public static Solver Create(string[] words, int wordLength = 5, int wordCount = 5)
@@ -33,21 +34,17 @@
 
         public void Solve(bool withFeedback = false)
         {
-            List<FiveLetterWord> words = new List<FiveLetterWord>();
-
             // Backtracking algorithm seems decent for this task. I also used one for my Sudoku solver
 			// When we get past half, we can be sure we already solved these
-            for (int i = 0; i < _words.Count / 2; i++)
-            {
+			Parallel.For(0, _words.Count / 2, i => {
+				List<FiveLetterWord> words = new List<FiveLetterWord>();
 				FiveLetterWord word = _words[i];
                 words.Add(word);
                 int hash = word.Hash;
 				List<FiveLetterWord> options = GetRemainingWords(hash, _words);
                 Solve(words, options, hash, withFeedback);
-				Console.Write($"\rSolved for {word}");
-				_solved.Add(word.Word);
-                words.Clear();
-            }
+				_solved.TryAdd(word.Word, 1);
+			});
         }
 
         public void Solve(List<FiveLetterWord> currentSet, List<FiveLetterWord> availableWords, int currentHash, bool withFeedback = false)
@@ -55,7 +52,7 @@
             if (currentSet.Count == _wordCount)
             {
                 // Copy our set to a new solution that deduplicates the same words in different order
-                Solutions.Add(new Solution(currentSet.ToList()));
+                Solutions.TryAdd(new Solution(currentSet.ToList()), 1);
 				if (withFeedback) {
 					Console.WriteLine($"Found solution {string.Join(',', currentSet)}");
 				}
@@ -66,7 +63,7 @@
             List<FiveLetterWord> options = GetRemainingWords(currentHash, availableWords);
             foreach (FiveLetterWord word in options)
             {
-				if (_solved.Contains(word.Word)) continue;
+				if (_solved.ContainsKey(word.Word)) continue;
                 currentSet.Add(word);
                 int nextHash = currentHash | word.Hash;
                 Solve(currentSet, options, nextHash, withFeedback);

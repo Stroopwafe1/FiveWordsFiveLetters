@@ -35,7 +35,7 @@ try
 	long measurement3 = stopWatch.ElapsedMilliseconds;
 
 	Console.WriteLine($"\n✅ Solved! Found {solver.Solutions.Count} solutions in {measurement3}ms");
-    foreach (var solution in solver.Solutions)
+    foreach (var solution in solver.Solutions.Keys)
     {
         Console.WriteLine($"Found solution {string.Join(',', solution.Words)}");
     }
